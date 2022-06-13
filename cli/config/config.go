@@ -32,6 +32,7 @@ func IsErrNotFound(err error) bool {
 
 func CreateFile(homeDir string) {
 	configPath:= filepath.Join(homeDir, CONFIG_DIR)
+	fmt.Printf("Creating config file under %s", configPath)
 	err := os.Mkdir(configPath, 0755)
 	if err != nil {
 		panic(fmt.Errorf("failed to create directory %s: %w", configPath, err))
