@@ -2,17 +2,13 @@ package main
 
 import (
 	"fmt"
+	"os"
+	osUser "os/user"
 
 	"github.com/vimiomori/habitira/cli/usr"
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/common-nighthawk/go-figure"
-)
-
-const (
-	CONFIG_DIR = "./config/habitira"
-	CONFIG_NAME = "config"
-	CONFIG_TYPE = "yaml"
 )
 
 func habitiraMessage() {
@@ -22,13 +18,16 @@ func habitiraMessage() {
 
 func main() {
 	habitiraMessage()
-	user := usr.NewUser()
+	homeDir, _ := os.UserHomeDir()
+	osName, _ := osUser.Current()
+	user := usr.NewUser(homeDir, osName.Name)
 	if user.HasConfig() {
 		// display options for view/edit
 		fmt.Println("welcome back")
 	} else {
 		// begin setup
-		fmt.Println("welcome")
+		usr, _ := osUser.Current()
+		fmt.Printf("Welcome %s!!", usr.Name)
 	}
 
 	var test string
