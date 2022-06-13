@@ -27,3 +27,7 @@
 ## Syncing Habitica to Jira
   - cloud function hosted on GCP as webhook target
   - cloud function calls heroku hosted API with user ID and maybe token
+
+### Note
+  - consider using [goreleaser](https://goreleaser.com/) for publishing to homebrew
+  - [simple guide](https://medium.com/@ben.lafferty/deploying-go-cli-applications-316e9cca16a4)
