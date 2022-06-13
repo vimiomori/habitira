@@ -24,8 +24,10 @@ func main() {
 	habitiraMessage()
 	user := usr.NewUser()
 	if user.HasConfig() {
+		// display options for view/edit
 		fmt.Println("welcome back")
 	} else {
+		// begin setup
 		fmt.Println("welcome")
 	}
 
