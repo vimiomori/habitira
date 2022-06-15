@@ -1,35 +1,38 @@
 package usr
 
 import (
+	"fmt"
+
 	"github.com/vimiomori/habitira/cli/config"
 )
 
 type Usr interface {
+	SetupConfig()
 	HasConfig() bool
 	Init()
+	WelcomeBack()
 }
 
 type usr struct {
-	homeDir string
-	osName  string
+	config config.Config
 }
 
 func NewUser(
-	homeDir string,
-	osName string,
 ) Usr {
 	return &usr{
-		homeDir,
-		osName,
+		config.NewConfig(),
 	}
 }
 
+func (u *usr) SetupConfig() {
+	u.config.Setup()
+}
+
 func (u *usr) HasConfig() bool {
-	config.Set(u.homeDir)
-	err := config.Read()
+	err := u.config.Read()
 	if err == nil {
 		return true
-	} else if config.IsErrNotFound(err) {
+	} else if u.config.IsErrNotFound(err) {
 		return false
 	} else {
 		panic("unable to read config file.")
@@ -41,11 +44,20 @@ func (u *usr) HasConfig() bool {
 // and creates a config file based on the answers
 // Initial setup
 func (u *usr) Init() {
-	config.CreateFile(u.homeDir)
+	fmt.Printf("Welcome %s!!\n", u.config.GetUserName())
+	// sleep
+	fmt.Println("Let's begin your initial setup.")
+	u.config.CreateFile()
 	// werr := viper.WriteConfig()
 
 	// if werr != nil {
 	// 	fmt.Println("failed to write config")
 	// 	fmt.Println(werr.Error())
 	// }
+}
+
+// TODO: rename
+// display options for view/edit
+func (u *usr) WelcomeBack() {
+	fmt.Printf("Welcome back, %s", u.config.GetUserName())
 }
